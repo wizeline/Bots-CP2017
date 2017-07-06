@@ -2,6 +2,8 @@
 const requestPromise = require('request-promise');
 const wit = require('../controllers/wit');
 
+const convoHandler = require('../lib/convoHandler');
+
 const isSubscribe = mode => mode === 'subscribe';
 const isTokenValid = token => token === process.env.FB_VERIFY_TOKEN;
 
@@ -28,7 +30,15 @@ const receivedMessage = (event) => {
   // Get the entities from Wit here
   // const entities = wit.getEntities(text)
 
-  sendTextMessage(senderId, text);
+  const processedMessage = convoHandler.process(text);
+
+  processedMessage
+    .then((response) => {
+      sendTextMessage(senderId, response);
+    })
+    .catch((error) => {
+      sendTextMessage(senderId, error);
+    });
 };
 
 const sendTextMessage = (recipientId, messageText) => {
@@ -48,7 +58,7 @@ const callSendAPI = (message) => {
   requestPromise({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {
-      access_token: process.env.PAGE_ACCESS_TOKEN,
+      access_token: process.env.FB_PAGE_ACCESS_TOKEN,
     },
     method: 'POST',
     json: message,
@@ -68,7 +78,7 @@ const callSendAPI = (message) => {
 
 const postWebhook = (req, res) => {
   const data = req.body;
-
+  console.log('ping');
   // Make sure this is a page subscription
   if (data.object === 'page') {
     // Iterate over each entry - there may be multiple if batched

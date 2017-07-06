@@ -1,0 +1,22 @@
+{
+  "name": "intro-bots",
+  "version": "0.0.1",
+  "description": "Some of the required (but not worth coding) code for a cool bots introduction",
+  "main": "src/server.js",
+  "repository": "git@github.com:a-rmz/intro-bots.git",
+  "author": "Alex Ramirez <armzprz@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "node-wit": "^4.2.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}
